@@ -1,0 +1,51 @@
+
+    #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+// Comparator function for sorting
+int compare(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+
+    while (T--) {
+        int N;
+        scanf("%d", &N);
+
+        int ratings[N], indices[N];
+        for (int i = 0; i < N; i++) {
+            scanf("%d", &ratings[i]);
+            indices[i] = i; 
+        }
+
+        int paired[N][2];
+        for (int i = 0; i < N; i++) {
+            paired[i][0] = ratings[i];
+            paired[i][1] = indices[i];
+        }
+
+        qsort(paired, N, sizeof(paired[0]), compare);
+
+        long long total_time = 0;
+        int current_index = paired[0][1]; 
+
+        for (int i = 0; i < N; i++) {
+            int rating = paired[i][0];
+            int next_index = paired[i][1];
+
+            total_time += abs(current_index - next_index);
+            total_time += rating; 
+
+            current_index = next_index;
+        }
+
+        printf("%lld\n", total_time); 
+    }
+
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */    
+    return 0;
+}
